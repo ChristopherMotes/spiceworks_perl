@@ -14,8 +14,8 @@ GetOptions (	"u" => \$username,
 );
 &get_fields;
             
-print "Found usernames: $_ \n" foreach (keys%names);
-print "Found dates $_ \n" foreach (keys%dates);
+if ($username) { print "Found usernames: $_ \n" foreach (keys%names); }
+if ($date) { print "Found dates $_ \n" foreach (keys%dates); }
 if ($event) { print "Found events $_ \n" foreach (keys%events); }
 #print "Found events $_ \n" foreach (keys%events);
 sub get_fields {
@@ -24,12 +24,14 @@ open HANDLE, "<", "$LOG_FILE"
 while (<HANDLE>) {
 	my @split = split /\s+/;
 		#added keys with null values makes unique lists
-		print "motes $split[0]\n";
-	
 		$dates{"$split[0]"} = "";
 		$names{"$split[1]"} = "";
+		# shifts remove first two fields
+		# we probably could've embedded this in the
+		# key assignment, but it reads cleaner this way
 		shift @split;
 		shift @split;
+		#now glue the remaining fields back together
 		my $unsplit = join(" ", @split);
 		$events{"$unsplit"} ="";
 } # end while
