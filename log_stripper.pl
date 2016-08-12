@@ -8,9 +8,11 @@ my %events;
 my $username;
 my $date;
 my $event;
+my $counts;
 GetOptions (	"u" => \$username,
 		"d" => \$date,
 		"e" => \$event,
+		"c" => \$counts
 );
 &get_fields;
             
@@ -18,6 +20,7 @@ if ($username) { print "Found usernames: $_ \n" foreach (keys%names); }
 if ($date) { print "Found dates $_ \n" foreach (keys%dates); }
 if ($event) { print "Found events $_ \n" foreach (keys%events); }
 #print "Found events $_ \n" foreach (keys%events);
+&get_counts if ( $counts );
 sub get_fields {
 open HANDLE, "<", "$LOG_FILE" 
 	or die "Log file sucks @ $!";
@@ -35,7 +38,18 @@ while (<HANDLE>) {
 		my $unsplit = join(" ", @split);
 		$events{"$unsplit"} ="";
 } # end while
-} # end sub
+close HANDLE;
+} # end sub get fields
 		
-
+sub get_counts {
+my %days;
+#first we make another hash with days
+# we could also put this with the get_fields, but
+# I'm not doing it that way 'cause
+foreach (keys%dates) {
+	my @split = split /T/;
+	$days{"$split['0']"} = "";
+} # end foreach keys dates  
+	
+} # end sub get_counts
 
