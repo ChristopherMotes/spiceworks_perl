@@ -22,7 +22,7 @@ while (<HANDLE>) {
 		$names{"$split[1]"} = "";
 		shift @split;
 		shift @split;
-		my $unsplit = join(@split);
+		my $unsplit = join(" ", @split);
 		$events{"$unsplit"} ="";
 } # end while
 } # end sub
