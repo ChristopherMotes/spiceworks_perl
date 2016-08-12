@@ -16,8 +16,8 @@ GetOptions (	"u" => \$username,
             
 print "Found usernames: $_ \n" foreach (keys%names);
 print "Found dates $_ \n" foreach (keys%dates);
-#print "Found events $_ \n" foreach (keys%events) if ($event);
-print "Found events $_ \n" foreach (keys%events);
+if ($event) { print "Found events $_ \n" foreach (keys%events); }
+#print "Found events $_ \n" foreach (keys%events);
 sub get_fields {
 open HANDLE, "<", "$LOG_FILE" 
 	or die "Log file sucks @ $!";
