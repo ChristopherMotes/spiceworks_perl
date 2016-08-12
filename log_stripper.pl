@@ -52,7 +52,20 @@ foreach (keys%dates) {
 } # end foreach keys dates  
 foreach my $DAYS (sort keys%days)  {
 	print "$DAYS\n";
-	foreach my $USERS (sort keys%names) { print "\t$USERS:\n"; }
+	foreach my $USERS (sort keys%names) { 
+		print "\t$USERS:\n";
+		foreach my $EVENT ( keys%events ) {
+			# This is a lot of file opens and closes
+			my $COUNT = "0";
+			open HANDLE, "<", "$LOG_FILE";
+			while (<HANDLE>) {
+				$COUNT += "1" if (/$DAYS.*$USERS.*$EVENT/);
+			} # close while
+			close HANDLE;
+		print "\t\t$EVENT: $COUNT\n";
+		} # end foreach event
+					
+	} # end for users
 } # end foreach days
 	
 } # end sub get_counts
