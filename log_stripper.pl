@@ -55,14 +55,17 @@ foreach my $DAYS (sort keys%days)  {
 	foreach my $USERS (sort keys%names) { 
 		print "\t$USERS:\n";
 		foreach my $EVENT ( keys%events ) {
-			# This is a lot of file opens and closes
 			my $COUNT = "0";
+			# This is a lot of file opens and closes
 			open HANDLE, "<", "$LOG_FILE";
 			while (<HANDLE>) {
-				$COUNT += "1" if (/$DAYS.*$USERS.*$EVENT/);
+					#$print "$DAYS.*$USERS $EVENT\n";
+				if ( /$DAYS.*$USERS $EVENT/ ) {
+					$COUNT ++; 
+				} # end if
 			} # close while
 			close HANDLE;
-		print "\t\t$EVENT: $COUNT\n";
+		print "\t\t$EVENT: $COUNT\n" if ( $COUNT gt 0 );
 		} # end foreach event
 					
 	} # end for users
