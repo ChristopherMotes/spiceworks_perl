@@ -50,9 +50,9 @@ foreach (keys%dates) {
 	my @split = split /T/;
 	$days{"$split['0']"} = "";
 } # end foreach keys dates  
-foreach my $DAYS (keys%days)  {
+foreach my $DAYS (sort keys%days)  {
 	print "$DAYS\n";
-	foreach my $USERS (keys%names) { print "\t$USERS:\n"; }
+	foreach my $USERS (sort keys%names) { print "\t$USERS:\n"; }
 } # end foreach days
 	
 } # end sub get_counts
